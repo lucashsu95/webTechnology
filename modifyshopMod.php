@@ -33,9 +33,10 @@
             v-for="(layout, index) in layouts"
             :key="index"
             class="layout"
-            :class="{active: selectedLayout === index}"
-            @click="selectedLayout = index"
+            :class="{active: payload.template_index == index}"
+            @click="payload.template_index = index"
           >
+          
             <div
               v-for="(key, keyIndex) in layout"
               :key="key"
@@ -87,7 +88,7 @@
 
         <div class="layout">
           <div
-            v-for="key in layouts[selectedLayout]"
+            v-for="key in layouts[payload.template_index]"
             :key="key"
             v-html="preview(key)"
           ></div>
@@ -139,7 +140,6 @@
                 date: "<?php echo $query['date'] ?>",
                 template_index: "<?php echo $query['template_index'] ?>",
             },
-            selectedLayout: <?php echo $query['template_index']?>,
             templateAry: '',
             productAry: '',
         };

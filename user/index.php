@@ -61,24 +61,19 @@
     <?php
       include('../link.php');
       $sql = 'select * from users where 1=1';
-      @$key = $_GET['keyWord'];
-      @$sortOrder = $_GET['sort'];
-      @$isAsc = $_GET['isAsc'] ? $_GET['isAsc'] : 'asc';
-      if($key){
-        $sql .= " and account like '$key'";
-      }
-      if($sortOrder){
-        $isAsc = isset($_GET['isAsc']) ? $_GET['isAsc'] : false;
-        $isAsc = $isAsc ? false : true;
-        $sql.= " order by $sortOrder $isAsc";
-      }
+      @$key = $_GET['keyWord'] ?? '';
+      @$sortOrder = $_GET['sort'] ?? 'id';
+      @$isAsc = $_GET['isAsc'] ?? 'asc';
+      // if($key){
+        $sql .= " and account like '%$key%'";
+      // }
+      $sql.= " order by $sortOrder $isAsc";
       $query = $db->query($sql)->fetchAll();
     ?>
-    <button onclick="history.go(-1)">上一頁</button>
+    <a href=".././">上一頁</a>
     <form action="./" method="get">
       <section>
         <input type="text" name="keyWord" placeholder='請輸入關鍵字'>
-        <button type="submit">查詢</button>
       </section>
       <br>
       <section>
@@ -91,8 +86,8 @@
           <option value="asc">降冪</option>
           <option value="desc">升冪</option>
         </select>
+        <button type="submit">查詢 / 排序</button>
       </section>
-
       <section>
         <input type="text" name='time' value='100'>
         <button type='button' onclick='fs_count()'>重新設定</button>
@@ -100,7 +95,7 @@
     </form>
     <div>
       <div class='box'>
-        <div>ID</div>
+        <div>使用者編號</div>
         <div>帳號</div>
         <div>密碼</div>
         <div>姓名</div>
