@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <button onclick="history.go(-1)">上一頁</button>
+    <div id="app">
+      <h1>新增商品模版(可以拖曳欄位更改版型)</h1>
+      <div class="layout">
+        <div
+          v-for="key,index in layouts[0]"
+          :key="key"
+          :data-key="index"
+          :class="key"
+          v-html="key"
+          draggable="true"
+          @dragstart="onDragstart"
+          @dragover.prevent=""
+          @drop="onDrop"
+        ></div>
+      </div>
+      <button @click="insertTemplate">新增商品模版</button>
+    </div>
+    <script src="./js/script.js"></script>
+  </body>
+</html>

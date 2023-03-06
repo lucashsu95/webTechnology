@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.js"></script>
+    <title>tests</title>
+  </head>
+  <body>
+    <div id="app">
+      {{msg}}
+      <div
+        v-for="color in colors"
+        :style="'font-size:2rem;color:#ddd;height:100px;background-color:' + color"
+      >
+        {{color}}
+      </div>
+      <button @click="onSubmit">bnt</button>
+    </div>
+    <script>
+      let ary = [1, 2, 3, 4];
+
+      const app = Vue.createApp({
+        data() {
+          return {
+            msg: null,
+            colors: [
+              "#FFA500",
+              "#FF8C00",
+              "#FF6347",
+              "#FF4500",
+              "#FF5733",
+              "#FFCFAD",
+              "#FFE4B8",
+              "#E6D1B1",
+              "#B8AA95",
+              "#5E5A54",
+              "#A67B5B",
+              "#4B2C20",
+              "#6F4E37",
+              "#C2B280",
+              "#8B5A2B",
+            ],
+          };
+        },
+        methods: {
+          onSubmit() {
+            console.log(ary);
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

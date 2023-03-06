@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登入</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      section {
+        width: 60%;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .doubleCheck {
+        width: 250px;
+        height: 250px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .doubleCheck > div {
+        border: 1px solid #ddd;
+        width: 100%;
+        height: 100%;
+      }
+      .doubleCheck > div.active {
+        background-color: #39f;
+      }
+      .inputBox {
+        width: calc(30px * 4);
+        border: 1px solid #bbb;
+        border-radius: 5px;
+        height: 30px;
+      }
+      .captcha_img {
+        width: 30px;
+      }
+      .page3 {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background: #fff;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transition: 0.5s;
+        transform: translate(-50%, -50%) scale(0);
+      }
+      .page3.active {
+        transform: translate(-50%, -50%) scale(1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <form action="loginprocess.php" method="post" ref="loginForm">
+        <h1>咖啡商品展示系統</h1>
+        <section>
+          <h1>登入</h1>
+          <p>account：<input type="text" name="account" /></p>
+          <p>password：<input type="password" name="password" /></p>
+        </section>
+
+        <section class="captcha">
+          <h1>驗證碼：</h1>
+          <div ref="img" class="imgBox"></div>
+          <div ref="inputBox" class="inputBox"></div>
+          <button type="button" @click="createImg">重新產生</button>
+          <div>由小到大排列</div>
+
+          <input type="hidden" name="captchaAns" ref="captchaAns" value="0" />
+        </section>
+
+        <section class="page3">
+          <h1>圖型驗證</h1>
+          <h1>{{title[randNum]}}</h1>
+          <div class="doubleCheck">
+            <template v-for="val,i in grid">
+              <div
+                :class="{active:grid[i]}"
+                @click="grid[i] = grid[i] ? 0 : 1"
+              ></div>
+            </template>
+          </div>
+          <input type="hidden" name="gridAns" ref="gridAns" value="0" />
+        </section>
+
+        <button type="button" @click="onSubmit">登入</button>
+        <button type="reset">重設</button>
+      </form>
+    </div>
+
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            msg: false,
+            captcha_ans: [],
+            grid: [0, 0, 0, 0],
+            randNum: Math.floor(Math.random() * 2),
+            title: ["垂直", "水平"],
+            wins: {
+              垂直: [
+                [1, 0, 1, 0],
+                [0, 1, 0, 1],
+              ],
+              水平: [
+                [1, 1, 0, 0],
+                [0, 0, 1, 1],
+              ],
+            },
+          };
+        },
+        mounted() {
+          this.createImg();
+        },
+        methods: {
+          createImg() {
+            let imgAry = this.$refs.img;
+            let inputBox = this.$refs.inputBox;
+            let ans = [];
+
+            inputBox.innerHTML = "";
+            imgAry.innerHTML = "";
+
+            for (let i = 0; i < 4; i++) {
+              let img = document.createElement("img");
+
+              num = Math.floor(Math.random() * 9);
+              img.src = "captcha.php?num=" + num;
+              img.dataset.id = num;
+              img.className = "captcha_img";
+
+              $(img).draggable({
+                revert: true,
+              });
+              imgAry.append(img);
+              ans.push(num);
+            }
+            ans.sort((a, b) => {
+              return a - b;
+            });
+
+            this.captcha_ans = ans.join("");
+          },
+          onSubmit() {
+            const main = this.wins[this.title[this.randNum]];
+            let ans = this.captcha_ans;
+            console.log(ans);
+            console.log(input);
+
+            if (input == ans) {
+              this.$refs.captchaAns.value = true;
+            }
+            if (JSON.stringify(main).includes(this.grid)) {
+              this.$refs.gridAns.value = true;
+            }
+            this.$refs.loginForm.submit();
+          },
+        },
+      }).mount("#app");
+
+      let inp = [];
+      let input = [];
+      $(".inputBox").droppable({
+        drop: function (e, ui) {
+          $(this).append(ui.helper[0]);
+          input += ui.helper[0].dataset.id;
+          if (input.length >= 4) {
+            document.querySelector(".page3").classList.add("active");
+          }
+        },
+      });
+    </script>
+  </body>
+</html>

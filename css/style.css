@@ -1,0 +1,115 @@
+[v-cloak] {
+  display: none;
+}
+* {
+  margin: 0;
+  color: #5e5a54;
+}
+nav {
+  width: 100%;
+  background: #e6d1b1;
+  padding: 1.5% 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+}
+.nav-left {
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-right {
+  margin-left: auto;
+}
+.nav-right ul {
+  display: flex;
+}
+.nav-right li {
+  display: flex;
+  margin-right: 20px;
+}
+.nav-right a {
+  color: #6f4e37;
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+form {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  width: 50%;
+}
+input,
+textarea,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+label {
+  display: block;
+}
+
+#pages {
+  display: flex;
+}
+
+.page {
+  border: 1px solid #333;
+  margin: 10px;
+  padding: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn.active {
+  background-color: #bbb;
+}
+
+.layouts {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.layout {
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.layout.active {
+  background-color: #bbb;
+}
+
+.layout > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.name {
+  background: #ffe4b8;
+  color: #8b5a2b;
+}
