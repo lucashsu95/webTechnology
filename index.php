@@ -63,10 +63,10 @@
           if($key){
             $sql .= " and (name like '$key' or price like '$key' or link like '$key' or udesc like '$key' or date like '$key')";
           }
-          if($startPrice <> ''){
+          if($startPrice){
             $sql .= " and price>=$startPrice";
           }
-          if($endPrice <> ''){
+          if($endPrice){
               $sql .= " and price<=$endPrice";
           }
 

@@ -104,8 +104,6 @@ const app = Vue.createApp({
         },
         onSubmit() {
             if (confirm("確定送出嗎?")) {
-                // let form = this.$refs.insertForm;
-                // form.submit();
                 $.post(
                     "api.php?do=insert",
                     { data: this.payload }

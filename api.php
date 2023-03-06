@@ -2,25 +2,25 @@
 include('link.php');
 // $data = json_decode(file_get_contents('php://input'));
 switch ($_GET['do']){
+    
     case 'getValue':
         $sql = 'select * from template';
         $query = $db->query($sql)->fetchAll();
         if($query) echo json_encode($query);
         break;
+
     case 'insert':
         $sql = $db->prepare('insert into product(name,udesc,price,link,image,date,template_index) values(:name,:udesc,:price,:link,:image,:date,:template_index)');
         if(@$_POST['id']){
             $sql = $db->prepare('update product set name=:name,udesc=:udesc,price=:price,link=:link,image=:image,date=:date,template_index=:template_index where id=:id');
             $sql->bindValue('id',$_POST['id']);
         }
-        // echo $data->image . '<br>';
-        // echo "<img src={$data->image} alt='img'>" . '<br>';
         $data = $_POST['data'];
 
         $fileName = date('YmdHis');
         $pathOfFile = "img/$fileName";
         file_put_contents($pathOfFile,$data['image']);
-        
+
         $sql->bindValue('name',$data['name']);
         $sql->bindValue('udesc',$data['udesc']);
         $sql->bindValue('image',$pathOfFile);
