@@ -27,16 +27,17 @@
       <!-- 選擇版型 Start -->
 
       <div v-show="page === 0" class="page">
-        <h1>選擇版型 (可以拖曳欄位更改版型)</h1>
+        <h1>選擇版型</h1>
         <div class="layouts">
           <div
             v-for="(layout, index) in layouts"
             :key="index"
             class="layout"
             :class="{active: payload.template_index == index}"
+            :style="'background:'+color[index]"
             @click="payload.template_index = index"
           >
-          
+
             <div
               v-for="(key, keyIndex) in layout"
               :key="key"
@@ -106,6 +107,7 @@
       const app = Vue.createApp({
     data() {
         return {
+          color:[],
             msg: 'null',
             pages: {
                 選擇版型: 0,
@@ -154,12 +156,10 @@
             $.post(
                 "api.php?do=getValue",
                 (res) => {
-                    for (let i = 0; i < res.length; i++) {
-                        this.layouts.push([]);
-                        for (let j = 1; j < 7; j++) {
-                            this.layouts[i].push(res[i][j]);
-                        }
-                    }
+                    res.forEach(element => {
+                        this.layouts.push(JSON.parse(element[1]));
+                        this.color.push(element[2]);
+                    });
                 },
                 "json"
             );
@@ -201,7 +201,7 @@
                     "api.php?do=insert",
                     {
                         id:<?php echo $query['id'] ?>,
-                        data: JSON.stringify(this.payload),
+                        data: this.payload,
                     },
                     (res) => {
                         document.write(res);

@@ -13,7 +13,7 @@
     <button onclick="history.go(-1)">上一頁</button>
     <div id="app">
       <h1>新增商品模版(可以拖曳欄位更改版型)</h1>
-      <div class="layout">
+      <div class="layout" :style="'background:'+payload.backgroundColor">
         <div
           v-for="key,index in layouts[0]"
           :key="key"
@@ -25,6 +25,14 @@
           @dragover.prevent=""
           @drop="onDrop"
         ></div>
+        背景顏色:
+        <input
+          type="text"
+          name="color"
+          placeholder="#ddd"
+          style="width: 100px; margin: 10px"
+          v-model="payload.backgroundColor"
+        />
       </div>
       <button @click="insertTemplate">新增商品模版</button>
     </div>

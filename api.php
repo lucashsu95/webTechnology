@@ -13,34 +13,29 @@ switch ($_GET['do']){
             $sql = $db->prepare('update product set name=:name,udesc=:udesc,price=:price,link=:link,image=:image,date=:date,template_index=:template_index where id=:id');
             $sql->bindValue('id',$_POST['id']);
         }
-        
         // echo $data->image . '<br>';
         // echo "<img src={$data->image} alt='img'>" . '<br>';
-        $data = json_decode($_POST['data']);
+        $data = $_POST['data'];
+
         $fileName = date('YmdHis');
         $pathOfFile = "img/$fileName";
-        file_put_contents($pathOfFile,$data->image);
+        file_put_contents($pathOfFile,$data['image']);
         
-        $sql->bindValue('name',$data->name);
-        $sql->bindValue('udesc',$data->udesc);
+        $sql->bindValue('name',$data['name']);
+        $sql->bindValue('udesc',$data['udesc']);
         $sql->bindValue('image',$pathOfFile);
-        $sql->bindValue('price',$data->price);
-        $sql->bindValue('link',$data->link);
-        $sql->bindValue('date',$data->date);
-        $sql->bindValue('template_index',$data->template_index);
+        $sql->bindValue('price',$data['price']);
+        $sql->bindValue('link',$data['link']);
+        $sql->bindValue('date',$data['date']);
+        $sql->bindValue('template_index',$data['template_index']);
 
         $sql->execute();
         echo "<script>alert('新增成功'),location.href='index.php'</script>";
         break;
     case 'insertTemplate':
-        $template = json_decode($_POST['template']);
-        $sql = $db->prepare('insert into template(one,two,three,four,fire,six) values(:one,:two,:three,:four,:fire,:six)');
-        $sql->bindValue('one',$template[0]);
-        $sql->bindValue('two',$template[1]);
-        $sql->bindValue('three',$template[2]);
-        $sql->bindValue('four',$template[3]);
-        $sql->bindValue('fire',$template[4]);
-        $sql->bindValue('six',$template[5]);
+        $sql = $db->prepare('insert into template(layout,color) values(:layout,:color)');
+        $sql->bindValue('layout',$_POST['template']);
+        $sql->bindValue('color',$_POST['color']);
         $sql->execute();
         echo "<script>alert('新增成功'),location.href='index.php'</script>";
         break;

@@ -6,47 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>會員管理</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-      .box{
-        display: grid;
-        grid-template-columns:repeat(6,1fr);
-        width: 80%;
-        text-align:center;
-      }
-      .box,.box>div{
-        margin:5px;
-        padding:10px 15px;
-        border:1px solid #ddd;
-        border-radius:5px;
-      }
-
-      .timeOutBox{
-        width: 500px;
-        height: 500px;
-        line-height:100px;
-
-        background: #fff;
-        border:5px solid #ddd;
-        border-radius:15px;
-
-        display: flex;
-        flex-direction:column;
-        justify-content: center;
-        align-items: center;
-        
-        padding:10px 15px;
-        position: absolute;
-        top:50%;
-        left:50%;
-        transform:translate(-50%,-50%) scale(0);
-      }
-      .timeOutBox.active{
-        transform:translate(-50%,-50%) scale(1);
-      }
-      .timeOutBox button{
-        padding:15px;
-      }
-    </style>
   </head>
   <body>
     <div class='timeOutBox'>
@@ -55,7 +14,7 @@
       </div>  
       <div>
         <button onclick='fs_close()'>Yes</button>
-        <button onclick='location.href="userMode.php"'>No</button>
+        <button onclick='location.href="../logout.php"'>No</button>
       </div>
     </div>
     <?php
@@ -64,10 +23,8 @@
       @$key = $_GET['keyWord'] ?? '';
       @$sortOrder = $_GET['sort'] ?? 'id';
       @$isAsc = $_GET['isAsc'] ?? 'asc';
-      // if($key){
-        $sql .= " and account like '%$key%'";
-      // }
-      $sql.= " order by $sortOrder $isAsc";
+      $sql .= " and account like '%$key%'";
+      $sql .= " order by $sortOrder $isAsc";
       $query = $db->query($sql)->fetchAll();
     ?>
     <a href=".././">上一頁</a>
@@ -94,7 +51,7 @@
       </section>
     </form>
     <div>
-      <div class='box'>
+      <div class='userbox'>
         <div>使用者編號</div>
         <div>帳號</div>
         <div>密碼</div>
@@ -103,7 +60,7 @@
         <div>操作</div>
       </div>
       <?php foreach ($query as $data) { ?>
-          <div class="box">
+          <div class="userbox">
             <div><?php echo $data['id'] ?></div>
             <div><?php echo $data['account'] ?></div>
             <div><?php echo $data['password'] ?></div>
@@ -122,29 +79,24 @@
       function fs_count(){
         time = document.querySelector('input[name="time"]')
         console.log(time.value);
-        setTimeout(fs_timeOut, time.value*1000);
+        timeCount = setTimeout(fs_timeOut, time.value*1000);
       }
 
       function fs_timeOut(){
-        console.log('timeout');
-        flag = 0;
+        // console.log('timeout');
         document.querySelector('.timeOutBox').classList.add('active');
-        fs_timeOutCount();
-      }
 
-      function fs_timeOutCount(){
-        console.log('timeOutCount');
-        setTimeout(() => {
-          if(flag) return ;
-          console.log('timeout!!!');
+        timeOutCount = setTimeout(() => {
+          location.href = '../logout.php';
         }, 5000);
       }
 
       function fs_close(){
-        flag = 1
+        clearTimeout(timeOutCount);
         document.querySelector('.timeOutBox').classList.remove('active');
         fs_count()
       }
+      
       fs_count()
     </script>
   </body>

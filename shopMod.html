@@ -34,16 +34,10 @@
             :key="index"
             class="layout"
             :class="{active: payload.template_index === index}"
+            :style="'background:'+color[index]"
             @click="payload.template_index = index"
           >
-            <div
-              v-for="(key, keyIndex) in layout"
-              :class="key"
-              :key="key"
-              :data-index="index"
-              :data-key="keyIndex"
-              draggable="true"
-            >
+            <div v-for="(key, keyIndex) in layout" :class="key" :key="key">
               {{ layoutData[key] }}
             </div>
           </div>

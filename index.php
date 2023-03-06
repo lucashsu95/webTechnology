@@ -74,14 +74,20 @@
           
           $sql2 = 'select * from template';
           $templateAry = $db->query($sql2)->fetchAll(PDO::FETCH_NUM);
-
+          
           foreach($productAry as $i=>$product){
-            ?> <div class='layout'> 
+            $template = $templateAry[$product['template_index']];
+            $layout = json_decode($template[1]);
+            
+            ?>
+
+              <div class='layout' style='background:<?php echo $template[2]?>'>
               <a href='modifyshopMod.php?id=<?php echo $product["id"] ?>'>修改</a>
+
               <?php
             // print_r($templateAry[$product['template_index']]);
-            foreach($templateAry[$product['template_index']] as $key){
-
+            
+            foreach($layout as $key){
               if(is_numeric($key)) continue;
 
               $value = $productAry[$i][$key];
@@ -89,7 +95,7 @@
                 $img = file_get_contents($value);
                 echo "<div><img src='$img' alt='image'></div>";
               }elseif($key === 'price'){
-                $value = str_pad($value,3,'0',STR_PAD_LEFT);
+                $value = str_pad($value,4,'0',STR_PAD_LEFT);
                 echo "<div>費用：$value</div>";
               }else{
                 echo "<div class='$key'>$value</div>";

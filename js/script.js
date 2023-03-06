@@ -2,6 +2,7 @@ const app = Vue.createApp({
     data() {
         return {
             msg: 'null',
+            color: [],
             pages: {
                 選擇版型: 0,
                 填寫資料: 1,
@@ -25,6 +26,7 @@ const app = Vue.createApp({
                 price: "",
                 link: "",
                 date: "",
+                backgroundColor: '',
                 template_index: 0,
             },
             dragIndex: "",
@@ -39,12 +41,17 @@ const app = Vue.createApp({
             $.post(
                 "api.php?do=getValue",
                 (res) => {
-                    for (let i = 0; i < res.length; i++) {
-                        this.layouts.push([]);
-                        for (let j = 1; j < 7; j++) {
-                            this.layouts[i].push(res[i][j]);
-                        }
-                    }
+                    console.log(res);
+                    res.forEach(element => {
+                        this.layouts.push(JSON.parse(element[1]));
+                        this.color.push(element[2]);
+                    });
+                    // for (let i = 0; i < res.length; i++) {
+                    //     this.layouts.push([]);
+                    //     for (let j = 1; j < 7; j++) {
+                    //         this.layouts[i].push(res[i][j]);
+                    //     }
+                    // }
                 },
                 "json"
             );
@@ -86,9 +93,11 @@ const app = Vue.createApp({
             $.post(
                 'api.php?do=insertTemplate',
                 {
-                    template: JSON.stringify(this.layouts[0])
+                    template: JSON.stringify(this.layouts[0]),
+                    color: this.payload.backgroundColor,
                 },
                 (res) => {
+                    // console.log(res);
                     document.write(res);
                 }
             )
@@ -99,9 +108,8 @@ const app = Vue.createApp({
                 // form.submit();
                 $.post(
                     "api.php?do=insert",
-                    {
-                        data: JSON.stringify(this.payload),
-                    },
+                    { data: this.payload }
+                    ,
                     (res) => {
                         document.write(res);
                     }
