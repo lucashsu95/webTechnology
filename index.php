@@ -22,7 +22,6 @@
       <div class='nav-right'>
 
         <ul>
-          <li><a href="./user/userMod.php">新增會員</a></li>
           <li><a href="./user">會員管理</a></li>
           <li><a href="shopMod.html">上架商品</a></li>
           <li><a href="./addtemplate.html">新增模版</a></li>

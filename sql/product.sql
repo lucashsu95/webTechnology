@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2023-03-03 10:00:39
+-- 產生時間： 2023-03-06 13:40:24
 -- 伺服器版本： 10.4.22-MariaDB
 -- PHP 版本： 8.0.25
 
@@ -33,7 +33,7 @@ CREATE TABLE `product` (
   `udesc` varchar(255) DEFAULT NULL,
   `price` int(30) DEFAULT NULL,
   `link` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` text DEFAULT NULL,
   `date` date DEFAULT NULL,
   `template_index` int(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -43,10 +43,10 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `name`, `udesc`, `price`, `link`, `image`, `date`, `template_index`) VALUES
-(7, 'ababa', 'abab', 2000, 'abab', 'img/20230303043302.jpg', '2023-03-03', 3),
-(8, 'abc', 'adfaf', 222, 'fafaf', 'img/20230303043543.jpg', '2023-02-27', 2),
-(9, '123', 'babbbb', 12345678, 'ab', 'img/20230303043632.jpg', '2023-03-03', 3),
-(10, 'aaaaa', 'aaa', 0, 'aaaaaa', 'img/20230303055216.jpg', '2023-03-04', 0);
+(5, 'ababa', 'babab', 123, 'ababa', 'img/20230304074251', '2023-03-03', 2),
+(6, 'tests', 'abc', 87, 'ababab', 'img/20230304074418', '2023-02-28', 0),
+(9, 'abc', '123', 123, 'bc', 'img/20230306103306', '2023-03-06', 1),
+(10, 'test2', 'test11', 199, 'abc', 'img/20230306103349', '2023-03-06', 3);
 
 --
 -- 已傾印資料表的索引

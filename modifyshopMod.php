@@ -108,7 +108,6 @@
     data() {
         return {
           color:[],
-            msg: 'null',
             pages: {
                 選擇版型: 0,
                 填寫資料: 1,
@@ -142,14 +141,10 @@
                 date: "<?php echo $query['date'] ?>",
                 template_index: "<?php echo $query['template_index'] ?>",
             },
-            templateAry: '',
-            productAry: '',
         };
     },
     mounted() {
         this.setlayouts();
-        this.setTemplate();
-        this.setProduct();
     },
     methods: {
         setlayouts() {
@@ -164,17 +159,6 @@
                 "json"
             );
         },
-        setTemplate() {
-            $.post('api.php?do=getTemplate', (res) => {
-                this.templateAry = res;
-            }, 'json');
-        },
-        setProduct() {
-            $.post('api.php?do=getProduct', (res) => {
-                this.productAry = res;
-            }, 'json')
-        },
-
         onUpload(e) {
             const file = e.target.files[0];
             if (file) {
@@ -200,7 +184,7 @@
               $.post(
                     "api.php?do=insert",
                     {
-                        id:<?php echo $query['id'] ?>,
+                        id: <?php echo $query['id'] ?>,
                         data: this.payload,
                     },
                     (res) => {

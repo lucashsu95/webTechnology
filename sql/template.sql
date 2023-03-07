@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2023-03-03 10:00:49
+-- 產生時間： 2023-03-06 13:40:36
 -- 伺服器版本： 10.4.22-MariaDB
 -- PHP 版本： 8.0.25
 
@@ -29,23 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `template` (
   `id` int(11) NOT NULL,
-  `one` varchar(30) NOT NULL,
-  `two` varchar(30) NOT NULL,
-  `three` varchar(30) NOT NULL,
-  `four` varchar(30) NOT NULL,
-  `fire` varchar(30) NOT NULL,
-  `six` varchar(30) NOT NULL
+  `layout` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `color` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- 傾印資料表的資料 `template`
 --
 
-INSERT INTO `template` (`id`, `one`, `two`, `three`, `four`, `fire`, `six`) VALUES
-(1, 'name', 'image', 'udesc', 'price', 'link', 'date'),
-(2, 'date', 'price', 'link', 'udesc', 'image', 'name'),
-(7, 'image', 'name', 'udesc', 'price', 'link', 'date'),
-(8, 'date', 'name', 'udesc', 'price', 'link', 'image');
+INSERT INTO `template` (`id`, `layout`, `color`) VALUES
+(1, '[\"name\",\"link\",\"image\",\"price\",\"udesc\",\"date\"]', '#eee'),
+(3, '[\"image\",\"name\",\"link\",\"price\",\"udesc\",\"date\"]', '#bbb'),
+(4, '[\"name\",\"link\",\"date\",\"price\",\"udesc\",\"image\"]', '#bbb'),
+(5, '[\"price\",\"link\",\"image\",\"name\",\"udesc\",\"date\"]', '#aaa');
 
 --
 -- 已傾印資料表的索引
@@ -65,7 +61,7 @@ ALTER TABLE `template`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `template`
 --
 ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

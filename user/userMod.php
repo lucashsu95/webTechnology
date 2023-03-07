@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>會員管理</title>
   <link rel="stylesheet" href="../css/style.css">
-
 </head>
 <body>
   <?php
@@ -29,6 +28,7 @@
     <button onclick="history.go(-1)">上一頁</button>
   
   <form action="userModprocess.php" method="post">
+    <h1>新增使用者</h1>
     <p>account：<input type="text" name="account" value='<?php echo $account ?>'></p>
     <p>password：<input type="password" name="password" value='<?php echo $password ?>'></p>
     <p>name：<input type="text" name="name" value='<?php echo $name ?>'></p>

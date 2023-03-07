@@ -17,22 +17,31 @@
         <button onclick='location.href="../logout.php"'>No</button>
       </div>
     </div>
-    <?php
-      include('../link.php');
-      $sql = 'select * from users where 1=1';
-      @$key = $_GET['keyWord'] ?? '';
-      @$sortOrder = $_GET['sort'] ?? 'id';
-      @$isAsc = $_GET['isAsc'] ?? 'asc';
-      $sql .= " and account like '%$key%'";
-      $sql .= " order by $sortOrder $isAsc";
-      $query = $db->query($sql)->fetchAll();
-    ?>
+        <?php
+          include('../link.php');
+          $sql = 'select * from users where 1=1';
+
+          @$key = $_GET['keyWord'] ?? '';
+          @$sortOrder = $_GET['sort'] ?? 'id';
+          @$isAsc = $_GET['isAsc'] ?? '';
+
+          $sql .= " and account like '%$key%'";
+          $sql .= " order by $sortOrder $isAsc";
+          $query = $db->query($sql)->fetchAll();
+        ?>
     <a href=".././">上一頁</a>
     <form action="./" method="get">
+      <h1>會員管理</h1>
+      <section>
+        <button type='button' onclick="location.href='userMod.php'">新增會員</button>
+      </section>
+      <section>
+        <button type='button' onclick="location.href='viewRecord.php'">登入登出紀錄</button>
+      </section>
       <section>
         <input type="text" name="keyWord" placeholder='請輸入關鍵字'>
+        <button type='submit'>查詢</button>
       </section>
-      <br>
       <section>
         <select name="sort">
           <option value="id">使用者編號</option>
@@ -43,15 +52,14 @@
           <option value="asc">降冪</option>
           <option value="desc">升冪</option>
         </select>
-        <button type="submit">查詢 / 排序</button>
+        <button type="submit">排序</button>
       </section>
       <section>
         <input type="text" name='time' value='100'>
         <button type='button' onclick='fs_count()'>重新設定</button>
       </section>
-    </form>
-    <div>
-      <div class='userbox'>
+    <div class='userbox'>
+      <div>
         <div>使用者編號</div>
         <div>帳號</div>
         <div>密碼</div>
@@ -60,7 +68,7 @@
         <div>操作</div>
       </div>
       <?php foreach ($query as $data) { ?>
-          <div class="userbox">
+          <div>
             <div><?php echo $data['id'] ?></div>
             <div><?php echo $data['account'] ?></div>
             <div><?php echo $data['password'] ?></div>
@@ -73,6 +81,8 @@
           </div>
         <?php } ?> 
     </div>
+    </form>
+
     <script>
       let flag = 0
 

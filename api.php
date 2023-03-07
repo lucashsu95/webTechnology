@@ -39,20 +39,6 @@ switch ($_GET['do']){
         $sql->execute();
         echo "<script>alert('新增成功'),location.href='index.php'</script>";
         break;
-        // if(isset($_FILES['image']['error'])){
-            // if($_FILES['image']['error'] == 0){
-            //     $Lext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            //     $Lfile_name = "img/" . date("YmdHis") . "." . $Lext;
-            //     copy($_FILES['image']['tmp_name'], $Lfile_name);
-            //     $sql->bindValue('image',$Lfile_name);
-            // }else if($_POST['id']){
-            //     $sql = $db->prepare('update product set name=:name,udesc=:udesc,price=:price,link=:link,date=:date,template_index=:template_index where id=:id');
-            //     $sql->bindValue('id',$_POST['id']);
-            //     echo "_FILES['image']['error'] == 0";
-            // }
-        // }else{
-        //     echo "_FILES['image']['error']";
-        // }
 }
 
 ?>
