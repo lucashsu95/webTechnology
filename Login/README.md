@@ -1,8 +1,6 @@
 # 專案介紹 ── Description
 
-## 登入範例
-
-<hr>
+登入範例
 
 # 運行環境需求 ── Requirement
 

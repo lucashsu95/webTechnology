@@ -1,8 +1,6 @@
 # 專案介紹 ── Description
 
-## 查詢範列
-
-<hr>
+查詢範列
 
 # 運行環境需求 ── Requirement
 
