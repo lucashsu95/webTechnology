@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>doubleCheck</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.js"
+      integrity="sha512-2zwx0mkoR2cxZY0humPK79YhJYgoX5lT+WNqkgTcV7qhVm3+msjlmOgoXnN1cW2r9qqbZez3XhnLZsyW3k8Wtg=="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .doubleCheck {
+        width: 250px;
+        height: 250px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .doubleCheck > div {
+        border: 1px solid #ddd;
+        width: 100%;
+        height: 100%;
+      }
+      .doubleCheck > div.active {
+        background-color: #39f;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <section>
+        <h1>圖型驗證</h1>
+        <h1>{{title[randNum]}}</h1>
+        <div class="doubleCheck">
+          <template v-for="val,i in grid">
+            <div
+              :class="{active:grid[i]}"
+              @click="grid[i] = grid[i] ? 0 : 1"
+            ></div>
+          </template>
+        </div>
+        <input type="hidden" name="gridAns" ref="gridAns" value="false" />
+      </section>
+      <button @click="onSubmit">送出</button>
+    </div>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            grid: [0, 0, 0, 0],
+            randNum: Math.round(Math.random()),
+            title: ["垂直", "水平"],
+            wins: {
+              垂直: [
+                [1, 0, 1, 0],
+                [0, 1, 0, 1],
+              ],
+              水平: [
+                [1, 1, 0, 0],
+                [0, 0, 1, 1],
+              ],
+            },
+          };
+        },
+        methods: {
+          onSubmit() {
+            const main = this.wins[this.title[this.randNum]];
+            if (JSON.stringify(main).includes(this.grid)) {
+              this.$refs.gridAns.value = "true";
+              alert(true);
+            } else {
+              alert("fail");
+            }
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
