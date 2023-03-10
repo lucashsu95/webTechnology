@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <form action="loginprocess.php" method="post" class="login">
+        <h1>Login</h1>
+        <p>
+            <input type="text" name="act" placeholder="請輸入帳號" required>
+        </p>
+        <p>
+            <input type="password" name="pwd" placeholder="請輸入密碼" required>
+        </p>
+        <div class="remember_me__box" onclick="fs_remember_me()">
+            <div id="remember_me" class="remember_me__ball"></div>
+        </div>
+        <input type="submit" value="login" class="btn">
+        <input type="reset" value="reset" class="btn">
+    </form>
+</body>
+
+<script>
+    function fs_remember_me() {
+        var remember_me = document.getElementById("remember_me");
+        remember_me.classList.toggle("remember_me__ball__active");
+    }
+</script>
+
+</html>

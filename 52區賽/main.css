@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: 微軟正黑體;
+
+}
+
+#navbar,
+.navbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar {
+    padding: 20px;
+    box-shadow: 0 4px 3px #ddd;
+}
+
+.navbar-left {
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.navbar-right {
+    margin-left: auto;
+    font-size: 20px;
+}
+
+.navbar-right>a {
+    margin-right: 20px;
+}
+
+#main {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 30px;
+
+}
+
+.widgets {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*overflow: hidden;*/
+}
+
+.widget {
+    width: 850px;
+    border: 1px solid #ddd;
+    padding: 2% 4%;
+    border-radius: 6px;
+    font-size: 18px;
+
+}
+
+input,
+select,
+button {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+    width: 85%;
+    max-height: 40px;
+
+    width: 95%;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.td-more {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 75px;
+}
+
+td>a {
+    margin-left: 10px;
+}
+
+
+/*
+
+.workaddwidget {
+    width: 590px;
+    height: 450px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+
+}
+
+.workwidget {
+    width: 690px;
+    height: 400px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+} */

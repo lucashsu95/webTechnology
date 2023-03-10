@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 微軟正黑體;
+}
+
+.btn {
+    width: 100px;
+    height: 30px;
+    margin: 5px;
+}
+
+.login,
+.adduser,table {
+    width: 320px;
+
+    border: 1px solid #39f;
+    border-radius: 4px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    margin: 60px auto;
+    line-height: 50px;
+}
+
+.remember_me__box {
+    width: 50px;
+    height: 25px;
+    border: 1px solid #333;
+    border-radius: 25px;
+    margin-right: auto;
+}
+
+.remember_me__ball {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #999;
+    transition: all .5s;
+}
+
+.remember_me__ball__active {
+    background-color: green;
+    transform: translateX(25px);
+}
+
+
+input[type='text'],
+input[type='password'] {
+    width: 250px;
+    height: 35px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type='text']:focus,
+input[type='password']:focus {
+    outline: 2px solid rgba(51, 153, 255, 0.5);
+}
+
+table{
+    width:500px;
+}
+td{
+    padding:0 20px;
+}

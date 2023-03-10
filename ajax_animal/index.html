@@ -1,0 +1,69 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jqajax-animal</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+</head>
+
+<body>
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>編號</td>
+                <td>動物名</td>
+                <td>重量</td>
+                <td>簡介</td>
+                <td>更新日期</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <hr>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tfoot>
+                <tr>
+                  <td colspan="6" style="text-align: center;padding:10px">
+                    <button onclick="activeForm()">新增</button>
+                    <button onclick="loading()">加載</button>
+                  </td>
+                </tr>
+              </tfoot>
+              
+    </table>
+    <script>
+        // /* $.post 寫法 */
+        // $.post("api.php?do=select", { start }, function (result) {
+        //     $("tbody").html(result);
+        //     $(".mdy").click(chginput);//因為是後來生成的 HTML，你必須重新使 DOM 路徑被認識（或者走 HTML 的 onclick 比較快）
+        // });
+
+        // /* $.Ajax 完整寫法 */
+        // $.ajax({
+        //     type: "POST",
+        //     data: { start },
+        //     url: "api.php?do=select",
+        //     success: function (result) {
+        //         $("tbody").html(result);
+        //         $(".mdy").click(chginput);
+        //     }
+        // });
+
+        /*select*/
+        let start = 0;
+        function loading() {
+            $.post("api.php?do=select", { start }, function (result) {
+                if (result != "fail") {
+                    $("tbody").append(result);
+                    $(".mdy").click(chginput);//因為是後來生成的 HTML，你必須重新使 DOM 路徑被認識（或者走 HTML 的 onclick 比較快）
+                    start += 10;
+                }
+            });
+        }
+        loading();
+
+
+    </script>
+</body>

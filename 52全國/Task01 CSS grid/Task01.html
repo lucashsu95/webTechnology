@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: grid;
+            grid-auto-rows: 1fr;
+            grid-auto-columns: 1fr;
+            width: 500px;
+            height: 500px;
+            outline: 2px solid red;
+            grid-gap: 5px;
+        }
+
+        .site-title {
+            grid-area: 1 / 1 / 1 /3;
+            background: #fed531;
+        }
+
+        .navs {
+            grid-area: 1 / 3 / 2 / 5;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 5px;
+        }
+
+        .nav1,
+        .nav2,
+        .nav3 {
+            background: #fdc1cb;
+        }
+
+        .post-title {
+            grid-area: 2 / 1 / 3 / 4;
+            background: #afd8e5;
+        }
+
+        .post-meta {
+            background: #8fe08c;
+            grid-area: 3 / 1 / 8 / 2;
+        }
+
+        .main-content {
+            grid-area: 3 / 2 / 5 / 4;
+            background: #d3d3d3;
+        }
+
+        .main-content-image {
+            grid-area: 5 / 2 / 8 / 4;
+            background: #fffc38;
+        }
+
+        .side-bar {
+            grid-area: 2 / 4 / 4 / 5;
+            background: #fcaa4c;
+        }
+
+        .ads {
+            background: #1c7e12;
+            grid-area: 4 / 4 / 6 / 5;
+        }
+
+        .other-stuffs {
+            grid-area: 6 / 4 / 8 / 5;
+            background: #db50f8;
+        }
+
+        .footer {
+            grid-area: 8 / 1 / 9 / 5;
+            background: #a08880;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="site-title"></div>
+        <div class="navs">
+            <div class="nav1"></div>
+            <div class="nav2"></div>
+            <div class="nav3"></div>
+        </div>
+        <div class="post-title"></div>
+        <div class="post-meta"></div>
+        <div class="main-content"></div>
+        <div class="main-content-image"></div>
+        <div class="side-bar"></div>
+        <div class="ads"></div>
+        <div class="other-stuffs"></div>
+        <div class="footer"></div>
+    </div>
+</body>
+
+</html>
