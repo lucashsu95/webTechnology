@@ -1,0 +1,53 @@
+.container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 5px black;
+}
+
+#choose {
+    width: 250px;
+    height: 45px;
+    font-size: 14px;
+}
+
+#weather {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+
+.weather-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+@media(max-width:900px) {
+    #weather {
+        display: block;
+    }
+
+    .weather-container {
+        flex-direction: column;
+    }
+}
+
+
+.weather-container .box {
+    padding: 10px 25px;
+    border: 1px solid #eee;
+    margin: 5px;
+}
+
+.weather-body {
+    padding: 5px
+}
+
+.weather-header {
+    padding: 10px;
+    font-weight: bold;
+}

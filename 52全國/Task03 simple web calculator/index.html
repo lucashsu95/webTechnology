@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task3 simple web calculator</title>
+    <script src="./jquery/jquery.js"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: inline-block;
+            width: 300px;
+        }
+
+        header {
+            display: flex;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+        }
+
+        .td {
+            border: 1px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px 12px;
+        }
+
+        input {
+            width: 300px;
+            border: 1px solid #333;
+        }
+
+        .td:hover {
+            cursor: pointer;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="display:flex;justify-content: center;">
+            計算機
+        </h1>
+
+        <header>
+            <div class="td">C</div>
+            <input type="text" name="" id="input">
+        </header>
+
+        <div class="grid">
+            <div class="td">0</div>
+            <div class="td">1</div>
+            <div class="td">2</div>
+            <div class="td">3</div>
+            <div class="td">4</div>
+            <div class="td">5</div>
+            <div class="td">6</div>
+            <div class="td">7</div>
+            <div class="td">8</div>
+            <div class="td">9</div>
+            <div class="td">=</div>
+            <div class="td">+</div>
+            <div class="td">-</div>
+            <div class="td">*</div>
+            <div class="td">/</div>
+            <div class="td">.</div>
+
+        </div>
+    </div>
+    </div>
+    <script>
+        var Linput = '';
+        var Lchar = '';
+        var Lary = ['*', "+", '-', '/'];
+        $(".td").click("click", function () {
+            Lchar = this.innerHTML;
+
+            if (isNaN(Lchar) && isNaN(Lchar2)) {
+                console.log('no' + Lchar + 'no2' + Lchar2);
+                Linput = Linput.substring(0, Linput.length - 1);
+            }
+            if (Linput.substring(0, 1) == '*' || Linput.substring(0, 1) == '/' || Linput.substring(0, 1) == '=') {
+                Linput = Linput.substring(1, Linput.length)
+            }
+
+            Linput = Linput + Lchar;
+            console.log(Linput);
+            document.querySelector('#input').value = Linput;
+
+            Lchar2 = Lchar;
+            if (Lchar == 'C') {
+                Linput = '';
+                document.querySelector('#input').value = Linput;
+            }
+            if (Lchar == '=') {
+                Linput = Math.round(eval(Linput.substr(0, Linput.length - 1)) * 100) / 100;
+                document.querySelector('#input').value = Linput;
+                Linput = '';
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>

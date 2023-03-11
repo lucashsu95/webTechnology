@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery/jquery.js"></script>
+    <script src="./jquery/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        #input {
+            width: 128px;
+            height: 28px;
+            border: 1px solid #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='navbar'>
+        <div class='navbar-left'>
+            TODO工作管理系統
+        </div>
+    </div>
+    <div id="main">
+        <div class="widgets">
+            <div class="widget">
+                <form action="loginprocess.php" method="post">
+                    <p>
+                        帳號:<input type="text" name="act" placeholder="請輸入帳號">
+                    </p>
+                    <p>
+                        密碼:<input type="password" name="pwd" placeholder="請輸入密碼">
+                    </p>
+                    <p>驗證碼:</p>
+                    <div
+                        style="display: flex;justify-content: center;align-items: center;flex-direction: column;margin-top:5px;">
+
+                        <h1 id="udisplay" style="letter-spacing: 10px;"></h1>
+                        <div id="img"></div>
+                        <div id="input"></div>
+                    </div>
+                    <p>由小到大排列</p>
+                    <input type='button' onclick="render()" class="ui-button" value="刷新驗證碼">
+                    <input type="submit" value="登入" class="ui-button">
+                    <input type="reset" value="重設" onclick="render()" class="ui-button">
+                    <input type="hidden" name="ans" id="ans">
+                    <input type="hidden" name="inp" id="inp">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const str = []
+    // for (let i = 0; i < 10; i++) {
+    //     str.push(String.fromCharCode(i + 48))
+    // }
+    for (let i = 0; i < 26; i++) {
+        //str.push(String.fromCharCode(i + 65))
+        str.push(String.fromCharCode(i + 97))
+    }
+    let inp = []
+    let udisplay = document.querySelector('#udisplay')
+    function render() {
+        let record = []
+        $("#img").empty();
+        $("#input").empty();
+        inp = []
+        for (let i = 0; i < 4; i++) {
+            let number = str[Math.floor(Math.random() * str.length)]
+            let image = document.createElement('img')
+            image.dataset.id = number
+            image.src = "captcha.php?num=" + number
+            $("#img").append(image)
+
+            record.push(number)
+            record.sort()
+
+            $(image).draggable({
+                revert: true
+            })
+
+        }
+        $("#ans").attr('value', record.join(''));
+        console.log(record)
+        udisplay.innerHTML = `${record.join('')}`
+
+    }
+    render()
+    $("#input").droppable({
+        drop: function (e, ui) {
+            $(this).append(ui.helper[0]).css({
+                top: 0,
+                left: 0,
+            }),
+                inp.push($(ui.helper[0]).data().id)
+            $("#inp").attr('value', inp.join(''))
+            console.log(inp)
+        }
+    })
+
+</script>
+
+</html>
