@@ -1,4 +1,4 @@
 <?php
-session_start();
+@session_start();
 $db = new PDO('mysql:host=localhost;dbname=53web02','admin','1234');
 ?>

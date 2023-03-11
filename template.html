@@ -4,24 +4,38 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>新增模版</title>
+    <title>管理模版</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.47/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.js"></script>
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <button onclick="history.go(-1)">上一頁</button>
     <div id="app">
-      <h1>新增商品模版(可以拖曳欄位更改版型)</h1>
+      <h1>管理模版</h1>
       <div class="layouts">
         <div
           v-for="(layout, index) in layouts"
           :key="index"
           class="layout"
           :class="{active: selectlayoutIndex === index}"
-          :style="{background: selectlayoutIndex === index ? insertTemplateBackground : layouts_background[index] }"
+          :style="{background: layouts_background[index] }"
           @click="selectlayoutIndex = index"
         >
+          <div>
+            <button
+              @click="modifyTemplate(layouts_id[index],layouts[index],layouts_background[index])"
+            >
+              修改
+            </button>
+            <button @click="destroyTemplate(layouts_id[index])">刪除</button>
+          </div>
+          <div>
+            <input
+              style="width: 100%"
+              type="text"
+              v-model="layouts_background[index]"
+            />
+          </div>
           <div
             v-for="(key, keyIndex) in layout"
             :key="key"
@@ -37,16 +51,6 @@
           </div>
         </div>
       </div>
-      背景顏色:
-      <input
-        type="text"
-        name="insertTemplateBackground"
-        placeholder="#ddd"
-        style="width: 100px; margin: 10px"
-        v-model="insertTemplateBackground"
-      />
-      <br />
-      <button @click="insertTemplate">新增商品模版</button>
     </div>
     <script src="./js/script.js"></script>
   </body>

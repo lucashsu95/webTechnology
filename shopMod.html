@@ -10,9 +10,12 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <button onclick="history.go(-1)">上一頁</button>
-
+    <button onclick="history.go(-1)">上一頁</button><br />
     <div id="app" v-cloak>
+      <a href="./addtemplate.html">新增模版</a>
+      <br /><br />
+      <a href="./template.html">管理模版</a>
+
       <div id="pages">
         <button
           v-for="(value, key) in pages"
@@ -33,9 +36,9 @@
             v-for="(layout, index) in layouts"
             :key="index"
             class="layout"
-            :class="{active: payload.template_index === index}"
-            :style="'background:'+color[index]"
-            @click="payload.template_index = index"
+            :class="{active: selectlayoutIndex === index}"
+            :style="{background: layouts_background[index]}"
+            @click="selectlayoutIndex = index"
           >
             <div v-for="(key, keyIndex) in layout" :class="key" :key="key">
               {{ layoutData[key] }}
@@ -79,12 +82,17 @@
       <div v-show="page === 2" class="page">
         <h1>預覽</h1>
 
-        <div class="layout">
+        <div class="layouts">
           <div
-            v-for="key in layouts[payload.template_index]"
-            :key="key"
-            v-html="preview(key)"
-          ></div>
+            class="layout"
+            :style="{background: layouts_background[selectlayoutIndex]}"
+          >
+            <div
+              v-for="key in layouts[selectlayoutIndex]"
+              :key="key"
+              v-html="preview(key)"
+            ></div>
+          </div>
         </div>
       </div>
       <!-- 預覽 End -->

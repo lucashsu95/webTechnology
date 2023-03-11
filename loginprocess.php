@@ -10,9 +10,9 @@ function err($key){
     echo "<script>alert('{$key}錯誤');location.href='record.php'</script>";
 }
 
-if(!$_POST['captchaAns']){
+if($_POST['captchaAns'] == 'false'){
     err('驗證碼');
-}else if(!$_POST['gridAns']){
+}else if($_POST['gridAns'] == 'false'){
     err('圖形');
 }else if(!$query){
     err('帳號');

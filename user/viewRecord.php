@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+    <?php 
+    include '../nav.php';
+    ?>
     <button onclick="history.go(-1)">上一頁</button>
     <div class="userbox">
         <div>

@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="../css/style.css">
   </head>
   <body>
+    <?php
+      include('../link.php');
+      include '../nav.php';
+    ?>
     <div class='timeOutBox'>
       <div>
         <h2>是否繼續操作?</h2>
@@ -18,28 +22,27 @@
       </div>
     </div>
         <?php
-          include('../link.php');
           $sql = 'select * from users where 1=1';
 
           @$key = $_GET['keyWord'] ?? '';
           @$sortOrder = $_GET['sort'] ?? 'id';
           @$isAsc = $_GET['isAsc'] ?? '';
-
-          $sql .= " and account like '%$key%'";
+          if($key <> ''){
+            $sql .= " and account like '%$key%'";
+          }
           $sql .= " order by $sortOrder $isAsc";
           $query = $db->query($sql)->fetchAll();
         ?>
-    <a href=".././">上一頁</a>
     <form action="./" method="get">
       <h1>會員管理</h1>
       <section>
-        <button type='button' onclick="location.href='userMod.php'">新增會員</button>
+        <button type='button' class='btn' onclick="location.href='userMod.php'">新增會員</button>
       </section>
       <section>
-        <button type='button' onclick="location.href='viewRecord.php'">登入登出紀錄</button>
+        <button type='button' class='btn' onclick="location.href='viewRecord.php'">登入登出紀錄</button>
       </section>
       <section>
-        <input type="text" name="keyWord" placeholder='請輸入關鍵字'>
+        <input type="text" name="keyWord" placeholder='請輸入關鍵字' value='<?php echo $key ?>'>
         <button type='submit'>查詢</button>
       </section>
       <section>
@@ -49,14 +52,14 @@
           <option value="name">姓名</option>
         </select>
         <select name="isAsc">
-          <option value="asc">降冪</option>
-          <option value="desc">升冪</option>
+          <option value="asc">遞增</option>
+          <option value="desc">遞減</option>
         </select>
         <button type="submit">排序</button>
       </section>
       <section>
-        <input type="text" name='time' value='100'>
-        <button type='button' onclick='fs_count()'>重新設定</button>
+        <input type="text" name='time' value='60'>
+        <button type='button' onclick='fs_close()'>重新設定</button>
       </section>
     <div class='userbox'>
       <div>
@@ -85,15 +88,14 @@
 
     <script>
       let flag = 0
-
+      let timeCount;
+      let timeOutCount;
       function fs_count(){
         time = document.querySelector('input[name="time"]')
-        console.log(time.value);
         timeCount = setTimeout(fs_timeOut, time.value*1000);
       }
 
       function fs_timeOut(){
-        // console.log('timeout');
         document.querySelector('.timeOutBox').classList.add('active');
 
         timeOutCount = setTimeout(() => {
@@ -102,6 +104,7 @@
       }
 
       function fs_close(){
+        clearTimeout(timeCount);
         clearTimeout(timeOutCount);
         document.querySelector('.timeOutBox').classList.remove('active');
         fs_count()

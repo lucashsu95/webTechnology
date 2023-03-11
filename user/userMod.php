@@ -8,8 +8,11 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
   <?php
     include('../link.php');
+    include '../nav.php';
+
     @$id = $_GET['id'];
     $account = '';
     $password = '';

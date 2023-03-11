@@ -12,4 +12,4 @@ $sql->bindValue("password",$_POST['password']);
 $sql->bindValue("name",$_POST['name']);
 $sql->bindValue("role",$_POST['role']);
 $sql->execute();
-header('location:./');
+header('location:user.php');

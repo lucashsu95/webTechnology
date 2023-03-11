@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2023-03-06 13:40:36
+-- 產生時間： 2023-03-10 06:21:06
 -- 伺服器版本： 10.4.22-MariaDB
 -- PHP 版本： 8.0.25
 
@@ -38,10 +38,14 @@ CREATE TABLE `template` (
 --
 
 INSERT INTO `template` (`id`, `layout`, `color`) VALUES
-(1, '[\"name\",\"link\",\"image\",\"price\",\"udesc\",\"date\"]', '#eee'),
-(3, '[\"image\",\"name\",\"link\",\"price\",\"udesc\",\"date\"]', '#bbb'),
-(4, '[\"name\",\"link\",\"date\",\"price\",\"udesc\",\"image\"]', '#bbb'),
-(5, '[\"price\",\"link\",\"image\",\"name\",\"udesc\",\"date\"]', '#aaa');
+(3, '[\"date\",\"name\",\"link\",\"price\",\"udesc\",\"image\"]', '#bfaa'),
+(11, '[\"image\",\"date\",\"price\",\"name\",\"udesc\",\"link\"]', '#bba'),
+(12, '[\"link\",\"image\",\"date\",\"price\",\"udesc\",\"name\"]', '#faa'),
+(13, '[\"link\",\"name\",\"date\",\"price\",\"image\",\"udesc\"]', '#fea'),
+(14, '[\"link\",\"udesc\",\"image\",\"price\",\"name\",\"date\"]', '#5d9b84'),
+(15, '[\"name\",\"link\",\"image\",\"price\",\"udesc\",\"date\"]', '#ba6699'),
+(16, '[\"image\",\"date\",\"price\",\"name\",\"udesc\",\"link\"]', '#099b'),
+(17, '[\"image\",\"link\",\"date\",\"udesc\",\"price\",\"name\"]', '#d019');
 
 --
 -- 已傾印資料表的索引
@@ -61,7 +65,7 @@ ALTER TABLE `template`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `template`
 --
 ALTER TABLE `template`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

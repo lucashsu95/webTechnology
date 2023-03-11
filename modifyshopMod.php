@@ -10,7 +10,13 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-  <button onclick="history.go(-1)">上一頁</button>
+  <?php
+      include 'link.php';
+      $sql = 'select * from product where id=' . $_GET['id'];
+      $query = $db->query($sql)->fetch(PDO::FETCH_ASSOC);
+      // var_dump($query);
+  ?>
+    <button onclick="history.go(-1)">上一頁</button>
 
     <div id="app" v-cloak>
       <div id="pages">
@@ -28,22 +34,17 @@
 
       <div v-show="page === 0" class="page">
         <h1>選擇版型</h1>
+
         <div class="layouts">
           <div
             v-for="(layout, index) in layouts"
             :key="index"
             class="layout"
-            :class="{active: payload.template_index == index}"
-            :style="'background:'+color[index]"
-            @click="payload.template_index = index"
+            :class="{active: selectlayoutIndex === index}"
+            :style="{background: layouts_background[index]}"
+            @click="selectlayoutIndex = index"
           >
-
-            <div
-              v-for="(key, keyIndex) in layout"
-              :key="key"
-              :data-index="index"
-              :data-key="keyIndex"
-            >
+            <div v-for="(key, keyIndex) in layout" :class="key" :key="key">
               {{ layoutData[key] }}
             </div>
           </div>
@@ -54,31 +55,31 @@
       <!-- 填寫資料 Start -->
 
       <div v-show="page === 1" class="page">
-          <h1>填寫資料</h1>
-          <div>
-            <label>商品名稱</label>
-            <input type="text" name="name" v-model="payload.name" />
-          </div>
-          <div>
-            <label>圖片</label>
-            <input type="file" name="image" id="image" @change="onUpload" />
-          </div>
-          <div>
-            <label>商品簡介</label>
-            <textarea name="udesc" v-model="payload.udesc"></textarea>
-          </div>
-          <div>
-            <label>費用</label>
-            <input type="text" name="price" v-model="payload.price" />
-          </div>
-          <div>
-            <label>相關連結</label>
-            <input type="text" name="link" v-model="payload.link" />
-          </div>
-          <div>
-            <label>發佈日期</label>
-            <input type="date" name="date" v-model="payload.date" />
-          </div>
+        <h1>填寫資料</h1>
+        <div>
+          <label>商品名稱</label>
+          <input type="text" name="name" v-model="payload.name" />
+        </div>
+        <div>
+          <label>圖片</label>
+          <input type="file" name="image" id="image" @change="onUpload" />
+        </div>
+        <div>
+          <label>商品簡介</label>
+          <textarea name="udesc" v-model="payload.udesc"></textarea>
+        </div>
+        <div>
+          <label>費用</label>
+          <input type="text" name="price" v-model="payload.price" />
+        </div>
+        <div>
+          <label>相關連結</label>
+          <input type="text" name="link" v-model="payload.link" />
+        </div>
+        <div>
+          <label>發佈日期</label>
+          <input type="date" name="date" v-model="payload.date" />
+        </div>
       </div>
 
       <!-- 填寫資料 End -->
@@ -87,12 +88,15 @@
       <div v-show="page === 2" class="page">
         <h1>預覽</h1>
 
-        <div class="layout">
-          <div
-            v-for="key in layouts[payload.template_index]"
-            :key="key"
-            v-html="preview(key)"
-          ></div>
+        <div class="layouts">
+          <div class="layout" :style="{background: layouts_background[selectlayoutIndex]}">
+            <div
+              v-for="key in layouts[selectlayoutIndex]"
+              :key="key"
+              
+              v-html="preview(key)"
+            ></div>
+          </div>
         </div>
       </div>
       <!-- 預覽 End -->
@@ -104,99 +108,145 @@
     </div>
 
     <script>
-      const app = Vue.createApp({
-    data() {
-        return {
-          color:[],
+            const app = Vue.createApp({
+        data() {
+          return {
             pages: {
-                選擇版型: 0,
-                填寫資料: 1,
-                預覽: 2,
-                確定送出: 3,
+              選擇版型: 0,
+              填寫資料: 1,
+              預覽: 2,
+              確定送出: 3,
             },
-            page: 1,
+            page: 0,
+            layouts_id: [],
             layouts: [],
+            layouts_background: [],
             layoutData: {
-                name: "商品名稱",
-                image: "圖片",
-                udesc: "商品簡介",
-                price: "費用: 0000",
-                link: "相關連結",
-                date: "發佈日期",
+              name: "商品名稱",
+              image: "圖片",
+              udesc: "商品簡介",
+              price: "費用: 0000",
+              link: "相關連結",
+              date: "發佈日期",
             },
-            <?php
-              include('link.php');
-              $id = $_GET['id'];
-              $sql = "select * from product where id=$id";
-              $query = $db->query($sql)->fetch();
 
-              $img = file_get_contents($query['image']);
-            ?>
             payload: {
-                name: "<?php echo $query['name'] ?>",
-                image: "<?php echo $img?>",
-                udesc: "<?php echo $query['udesc'] ?>",
-                price: "<?php echo $query['price'] ?>",
-                link: "<?php echo $query['link'] ?>",
-                date: "<?php echo $query['date'] ?>",
-                template_index: "<?php echo $query['template_index'] ?>",
+              name: "<?php echo $query['name']?>",
+              image: "<?php echo $query['image']?>",
+              udesc: "<?php echo $query['udesc']?>",
+              price: "<?php echo $query['price']?>",
+              link: "<?php echo $query['link']?>",
+              date: "<?php echo $query['date']?>",
+              template_id: "<?php echo $query['template_id']?>",
             },
-        };
-    },
-    mounted() {
-        this.setlayouts();
-    },
-    methods: {
-        setlayouts() {
-            $.post(
-                "api.php?do=getValue",
-                (res) => {
-                    res.forEach(element => {
-                        this.layouts.push(JSON.parse(element[1]));
-                        this.color.push(element[2]);
-                    });
-                },
-                "json"
-            );
+            selectlayoutIndex: 0,
+            dragIndex: "",
+            dragKey: "",
+            file: "",
+          };
         },
-        onUpload(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => {
-                    this.payload.image = reader.result;
-                };
-            }
+        mounted() {
+          this.setlayouts();
         },
+        methods: {
+          setlayouts() {
+            $.get(
+              "api.php?do=setTemplate",
+              (res) => {
+                this.layouts_id = res.map((x) => x["id"]);
+                this.layouts = res.map((x) => JSON.parse(x["layout"]));
+                this.layouts_background = res.map((x) => x["color"]);
 
-        preview(key) {
+                this.selectlayoutIndex = this.layouts_id.indexOf(this.payload.template_id);
+              },
+              "json"
+            );
+          },
+
+          onUpload(e) {
+            const file = e.target.files[0];
+            this.file = file;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+              this.payload.image = reader.result;
+            };
+          },
+          preview(key) {
             if (key === "image") {
-                return `<img src="${this.payload[key]}" alt="image">`;
+              return `<img src="${this.payload[key]}" alt="image">`;
             } else if (key === "price") {
-                return `費用: ${this.payload[key].toString().padStart(4, '0')}`;
+              return `費用: ${this.payload[key].padStart(4, "0")} `;
             }
             return this.payload[key];
-        },
+          },
+          insertTemplate() {
+            color = this.payload.background;
+            layout = this.layouts[this.selectlayoutIndex];
+            fetch("api.php?do=insertTemplate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ template: layout, color: color }),
+            }).then(() => {
+              alert("新增成功");
+              location.href = "index.php";
+            });
 
-        onSubmit() {
+          },
+
+          modifyTemplate(id, layout, color) {
+            fetch("api.php?do=modifyTemplate", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: id, template: layout, color: color }),
+            });
+          },
+
+          destroyTemplate(layouts_id) {
+            url = "api.php?do=destroyTemplate&id=" + layouts_id;
+            location.href = url;
+          },
+
+          onSubmit() {
             if (confirm("確定送出嗎?")) {
-              $.post(
-                    "api.php?do=insert",
-                    {
-                        id: <?php echo $query['id'] ?>,
-                        data: this.payload,
-                    },
-                    (res) => {
-                        document.write(res);
-                    }
-                );
-            }
-        },
-    },
-});
+              this.payload.image = this.file;
+              this.payload.template_id = this.selectlayoutIndex;
 
-app.mount("#app");
+              const formData = new FormData();
+
+              for (let key in this.payload) {
+                // console.log(key, this.payload[key]);
+                formData.append(key, this.payload[key]);
+              }
+              formData.append('id', <?php echo $query['id']?>);
+
+               fetch("api.php?do=productMod", {
+                method: "POST",
+                body: formData,
+              }).then(() => {
+                alert("修改成功");
+                location.href = "index.php";
+              });
+
+              // $.post(
+              //     "api.php?do=insert",
+              //     { data: this.payload }
+              //     ,
+              //     (res) => {
+              //         document.write(res);
+              //     }
+              // );
+            }
+          },
+        },
+      });
+
+      app.mount("#app");
     </script>
   </body>
 </html>

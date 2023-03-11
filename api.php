@@ -3,42 +3,85 @@ include('link.php');
 // $data = json_decode(file_get_contents('php://input'));
 switch ($_GET['do']){
     
-    case 'getValue':
+    case 'setTemplate':
+        
         $sql = 'select * from template';
-        $query = $db->query($sql)->fetchAll();
-        if($query) echo json_encode($query);
+        $query = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($query);
         break;
 
-    case 'insert':
-        $sql = $db->prepare('insert into product(name,udesc,price,link,image,date,template_index) values(:name,:udesc,:price,:link,:image,:date,:template_index)');
-        if(@$_POST['id']){
-            $sql = $db->prepare('update product set name=:name,udesc=:udesc,price=:price,link=:link,image=:image,date=:date,template_index=:template_index where id=:id');
-            $sql->bindValue('id',$_POST['id']);
-        }
-        $data = $_POST['data'];
+    case 'productMod':
 
+        $sql = $db->prepare('insert into product(name,udesc,price,link,image,date,template_id) values(:name,:udesc,:price,:link,:image,:date,:template_id)');
+        
         $fileName = date('YmdHis');
-        $pathOfFile = "img/$fileName";
-        file_put_contents($pathOfFile,$data['image']);
-
-        $sql->bindValue('name',$data['name']);
-        $sql->bindValue('udesc',$data['udesc']);
+        $pathOfFile = "img/{$fileName}.jpg";
+        move_uploaded_file($_FILES['image']['tmp_name'], $pathOfFile);
         $sql->bindValue('image',$pathOfFile);
-        $sql->bindValue('price',$data['price']);
-        $sql->bindValue('link',$data['link']);
-        $sql->bindValue('date',$data['date']);
-        $sql->bindValue('template_index',$data['template_index']);
 
+        if(@$_POST['id']){
+            $sql = $db->prepare('update product set name=:name,udesc=:udesc,price=:price,link=:link,date=:date,template_id=:template_id where id=:id');
+            $sql->bindValue('id',$_POST['id']);
+            
+            if($_FILES['image']){
+                $sql3 = $db->prepare('update product set image=:image where id=:id');
+                $sql3->bindValue('id',$_POST['id']);
+                $sql3->bindValue('image',$pathOfFile);
+                $sql3->execute();
+            }
+        }
+
+        // file_put_contents($pathOfFile,$data['image']);
+        $sql2 = 'select * from template';
+        $template = $db->query($sql2)->fetchAll();
+        $template_id = $template[$_POST['template_id']]['id'];
+
+        $sql->bindValue('name',$_POST['name']);
+        $sql->bindValue('udesc',$_POST['udesc']);
+        $sql->bindValue('price',$_POST['price']);
+        $sql->bindValue('link',$_POST['link']);
+        $sql->bindValue('date',$_POST['date']);
+        $sql->bindValue('template_id',$template_id);
         $sql->execute();
-        echo "<script>alert('新增成功'),location.href='index.php'</script>";
+
         break;
+    case 'destroyProduct':
+
+        $sql = 'delete from product where id=' . $_GET['id'];
+        $query = $db->query($sql);
+        header('location:./');
+        break;
+
     case 'insertTemplate':
+
+        $data = json_decode(file_get_contents('php://input'),true);
+        // var_dump($data);
         $sql = $db->prepare('insert into template(layout,color) values(:layout,:color)');
-        $sql->bindValue('layout',$_POST['template']);
-        $sql->bindValue('color',$_POST['color']);
+        $sql->bindValue('layout',json_encode($data['template']));
+        $sql->bindValue('color',$data['color']);
         $sql->execute();
-        echo "<script>alert('新增成功'),location.href='index.php'</script>";
         break;
+
+    case 'modifyTemplate':
+
+        $data = json_decode(file_get_contents('php://input'),true);
+        $sql = $db->prepare('update template set layout=:layout,color=:color where id=:id');
+
+        $sql->bindValue('id',$data['id']);
+        $sql->bindValue('layout',json_encode($data['template']));
+        $sql->bindValue('color',$data['color']);
+        $sql->execute();
+        break;
+        
+    case 'destroyTemplate':
+
+        $id = $_GET['id'];
+        // echo $id;
+        $sql = "delete from template where id=$id";
+        $query = $db->query($sql);
+        header('location:template.html');   
+        break;
+
 }
 
 ?>

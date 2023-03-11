@@ -76,23 +76,31 @@
         <section class="captcha">
           <h1>驗證碼：</h1>
           <div ref="img"></div>
-          <div ref="inputBox" class="inputBox"></div>
+          <div
+            ref="inputBox"
+            class="inputBox"
+            @dragover.prevent=""
+            @drop="onDrop"
+          ></div>
           <button type="button" @click="createImg">重新產生</button>
           <div>{{randNum ? "由小到大排列" : "由大到小排列"}}</div>
           {{'答案:'+captcha_ans}}
 
-          <input type="hidden" name="captchaAns" ref="captchaAns" />
+          <input type="hidden" name="captchaAns" :value="captchaAns" />
         </section>
 
         <section class="grid">
           <h1>圖型驗證</h1>
           <h2>{{title[randNum]}}</h2>
           <div class="doubleCheck">
-            <template v-for="val,i in grid">
-              <div :class="{active:val}" @click="grid[i] = val ? 0 : 1"></div>
-            </template>
+            <div
+              v-for="i in 4"
+              :key="i"
+              :data-key="i"
+              @click="e => e.target.classList.toggle('active')"
+            ></div>
           </div>
-          <input type="hidden" name="gridAns" ref="gridAns" />
+          <input type="hidden" name="gridAns" :value="gridAns" />
           <button type="button" @click="onSubmit">登入</button>
           <button type="reset">重設</button>
         </section>
@@ -105,20 +113,16 @@
       const app = Vue.createApp({
         data() {
           return {
+            captchaAns: false,
+            gridAns: false,
             captcha_ans: [],
-            grid: [0, 0, 0, 0],
             randNum: Math.round(Math.random()),
             title: ["垂直", "水平"],
             wins: {
-              垂直: [
-                [1, 0, 1, 0],
-                [0, 1, 0, 1],
-              ],
-              水平: [
-                [1, 1, 0, 0],
-                [0, 0, 1, 1],
-              ],
+              垂直: ["13", "24"],
+              水平: ["12", "34"],
             },
+            dragKey: null,
           };
         },
         mounted() {
@@ -147,10 +151,12 @@
               img.src = "captcha.php?num=" + num;
               img.dataset.id = num;
               img.className = "captcha_img";
+              img.setAttribute("draggable", true);
+              img.addEventListener("dragstart", this.onDragstart);
 
-              $(img).draggable({
-                revert: true,
-              });
+              // $(img).draggable({
+              //   revert: true,
+              // });
               imgAry.append(img);
               ans.push(num);
             }
@@ -166,32 +172,64 @@
 
             this.captcha_ans = ans.join("");
           },
-          onSubmit() {
-            let main = this.wins[this.title[this.randNum]];
-            let ans = this.captcha_ans;
+          onDragstart(e) {
+            this.dragKey = e.target.dataset.id;
+          },
+          onDrop(e) {
+            if (e.target.className !== "inputBox") return;
 
-            if (input == ans) {
-              this.$refs.captchaAns.value = true;
+            const target = document.querySelector(
+              `.captcha_img[data-id="${this.dragKey}"]`
+            );
+            e.target.appendChild(target);
+
+            const input = [...e.target.querySelectorAll(".captcha_img")]
+              .map((x) => x.dataset.id)
+              .join("");
+            if (input == this.captcha_ans) {
+              document.querySelector(".grid").classList.add("active");
             }
-            if (JSON.stringify(main).includes(this.grid)) {
-              this.$refs.gridAns.value = true;
+          },
+          onSubmit() {
+            const doubleCheckBlocks = [
+              ...document.querySelectorAll(".doubleCheck .active"),
+            ];
+            const values = doubleCheckBlocks.map((b) => b.dataset.key);
+            const input = values.join("");
+            const answer = this.wins[this.title[this.randNum]];
+            if (answer.includes(input)) {
+              this.captchaAns = true;
+              this.gridAns = true;
             }
-            this.$refs.loginForm.submit();
+
+            setTimeout(() => {
+              this.$refs.loginForm.submit();
+            });
+            // let main = this.wins[this.title[this.randNum]];
+            // let ans = this.captcha_ans;
+
+            // if (input == ans) {
+            //   this.$refs.captchaAns.value = true;
+            // }
+            // if (JSON.stringify(main).includes(this.grid)) {
+            //   this.$refs.gridAns.value = true;
+            // }
+            // this.$refs.loginForm.submit();
           },
         },
       }).mount("#app");
 
-      let inp = [];
-      $(".inputBox").droppable({
-        drop: function (e, ui) {
-          $(this).append(ui.helper[0]);
-          input += ui.helper[0].dataset.id;
-          console.log(input);
-          if (input.length >= 4) {
-            document.querySelector(".grid").classList.add("active");
-          }
-        },
-      });
+      // let inp = [];
+      // $(".inputBox").droppable({
+      //   drop: function (e, ui) {
+      //     $(this).append(ui.helper[0]);
+      //     input += ui.helper[0].dataset.id;
+      //     console.log(input);
+      //     if (input.length >= 4) {
+      //       document.querySelector(".grid").classList.add("active");
+      //     }
+      //   },
+      // });
     </script>
   </body>
 </html>
